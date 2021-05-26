@@ -1,0 +1,53 @@
+name: C/C++ CI
+
+on:
+  #schedule:
+  #- cron: "0 22 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Simple test
+      - run: echo This is the ${GITHUB_WORKSPACE}
+#     container:
+#       image: frolvlad/alpine-gcc
+#       volumes: ${{PWD}}:
+#     steps:
+#     - name: checkout tinycc repository
+#     - uses: actions/checkout@v2
+#       with:
+#         repository: TinyCC/tinycc
+#         #path: my-tools
+#     - name: What OS is running
+#       run: uname -a
+#     - run: cd tinycc
+#     - name: configure
+#     - run: ./configure --config-musl
+#     - name: make
+#       run: make
+#     - name: make test
+#       run: make test
+    
+#     - name: What java version do we have
+#       run: java -version
+
+#     steps:
+#     - name: checkout tinycc repository
+#     - uses: actions/checkout@v2
+#       with:
+#         repository: TinyCC/tinycc
+#         #path: my-tools
+#     - name: install musl-dev
+#     - run: sudo apt install musl-dev
+#     - run: cd tinycc
+#     - name: configure
+#     - run: ./configure --config-musl
+#     - name: make
+#       run: make
+#     - name: make test
+#       run: make test
+#     - name: make distcheck
+#       run: make distcheck
