@@ -39,14 +39,14 @@ jobs:
           #cd /github/workspace/tinycc
           cd ${GITHUB_WORKSPACE}
           mkdir -p /first_stage
-          ./configure --config-musl cc=tcc --prefix=/first_stage
+          ./configure --config-musl --cc=tcc --prefix=/first_stage
           make
           make install
       - name: second stage compile tcc
         run: |
           make clean
           mkdir -p /second-stage
-          ./configure --config-musl cc=/first_stage/bin/tcc --prefix=/second-stage
+          ./configure --config-musl --cc=/first_stage/bin/tcc --prefix=/second-stage
           make
           make test
           make install
