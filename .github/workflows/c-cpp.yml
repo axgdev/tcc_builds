@@ -8,10 +8,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+        image: alpine
     
     steps:
       - name: Simple test
         run: echo This is the ${GITHUB_WORKSPACE}
+      - name: In which OS are we?
+        run: uname -a
+      - name: What's in our path?
+        run: |
+          ls -lh /
+          ls -lh /github
+      - uses: actions/checkout@v2
+        with:
+          repository: TinyCC/tinycc
+          path: "/github/workspace"
+      - name: modify repositories
+        run: https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
+      - name: add necessary packages, gnu-grep is needed for tcc
+        run: |
+          apk add --no-cache tcc binutils musl-dev make texinfo
+          apk add --no-cache --upgrade grep
+      - name: first stage compile tcc
+        run: |
+          cd /github/workspace/tinycc
+          mkdir -p /first_stage
+          ./configure --config-musl cc=tcc --prefix=/first_stage
+          make
+          make install
+      - name: second stage compile tcc
+        run: |
+          make clean
+          mkdir -p /second-stage
+          ./configure --config-musl cc=/first_stage/bin/tcc --prefix=/second-stage
+          make
+          make test
+          make install
+        
+        
+#         apk add --no-cache tcc binutils musl-dev make texinfo
+#         apk add --no-cache --upgrade grep
 #     container:
 #       image: frolvlad/alpine-gcc
 #       volumes: ${{PWD}}:
