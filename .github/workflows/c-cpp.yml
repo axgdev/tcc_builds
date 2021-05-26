@@ -1,9 +1,9 @@
 name: C/C++ CI
 
 on:
+  workflow_dispatch:
   #schedule:
   #- cron: "0 22 * * *"
-  workflow_dispatch:
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
     
     steps:
       - name: Simple test
-      - run: echo This is the ${GITHUB_WORKSPACE}
+        run: echo This is the ${GITHUB_WORKSPACE}
 #     container:
 #       image: frolvlad/alpine-gcc
 #       volumes: ${{PWD}}:
