@@ -27,15 +27,17 @@ jobs:
       - name: Is the repository where expected?
         run: |
           ls -lh ${GITHUB_WORKSPACE}
+          echo "Current directory is $PWD"
       - name: modify repositories
-        run: https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
+        run: echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
       - name: add necessary packages, gnu-grep is needed for tcc
         run: |
           apk add --no-cache tcc binutils musl-dev make texinfo
           apk add --no-cache --upgrade grep
       - name: first stage compile tcc
         run: |
-          cd /github/workspace/tinycc
+          #cd /github/workspace/tinycc
+          cd ${GITHUB_WORKSPACE}
           mkdir -p /first_stage
           ./configure --config-musl cc=tcc --prefix=/first_stage
           make
