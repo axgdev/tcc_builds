@@ -16,14 +16,17 @@ jobs:
         run: echo This is the ${GITHUB_WORKSPACE}
       - name: In which OS are we?
         run: uname -a
-      - name: What's in our path?
-        run: |
-          ls -lh /
-          ls -lh /github
+#       - name: What's in our path?
+#         run: |
+#           ls -lh /
+#           ls -lh /github
       - uses: actions/checkout@v2
         with:
           repository: TinyCC/tinycc
-          path: "/github/workspace"
+          #path: "/github/workspace"
+      - name: Is the repository where expected?
+        run: |
+          ls -lh ${GITHUB_WORKSPACE}
       - name: modify repositories
         run: https://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
       - name: add necessary packages, gnu-grep is needed for tcc
