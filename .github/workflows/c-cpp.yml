@@ -30,14 +30,14 @@ jobs:
           echo "Current directory is $PWD"
       - name: modify repositories
         run: echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+        # some steps are not necessary, we don't need to add: binutils textinfo
+        # we don't need to run: apk add --no-cache --upgrade grep
       - name: add necessary packages, gnu-grep is needed for tcc
-        run: |
-          apk add --no-cache tcc binutils musl-dev make texinfo
-          apk add --no-cache --upgrade grep
+        run: apk add --no-cache tcc musl-dev make
       - name: first stage compile tcc
+        #cd /github/workspace/tinycc
+        #cd ${GITHUB_WORKSPACE}
         run: |
-          #cd /github/workspace/tinycc
-          cd ${GITHUB_WORKSPACE}
           mkdir -p /first_stage
           ./configure --config-musl --cc=tcc --prefix=/first_stage
           make
