@@ -12,31 +12,14 @@ jobs:
         image: alpine
     
     steps:
-      - name: Simple test
-        run: echo This is the ${GITHUB_WORKSPACE}
-      - name: In which OS are we?
-        run: uname -a
-#       - name: What's in our path?
-#         run: |
-#           ls -lh /
-#           ls -lh /github
       - uses: actions/checkout@v2
         with:
           repository: TinyCC/tinycc
-          #path: "/github/workspace"
-      - name: Is the repository where expected?
-        run: |
-          ls -lh ${GITHUB_WORKSPACE}
-          echo "Current directory is $PWD"
       - name: modify repositories
         run: echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-        # some steps are not necessary, we don't need to add: binutils textinfo
-        # we don't need to run: apk add --no-cache --upgrade grep
       - name: add necessary packages, gnu-grep is needed for tcc
         run: apk add --no-cache tcc musl-dev make
       - name: first stage compile tcc
-        #cd /github/workspace/tinycc
-        #cd ${GITHUB_WORKSPACE}
         run: |
           mkdir -p /first_stage
           ./configure --config-musl --cc=tcc --prefix=/first_stage
@@ -50,46 +33,3 @@ jobs:
           make
           make test
           make install
-        
-        
-#         apk add --no-cache tcc binutils musl-dev make texinfo
-#         apk add --no-cache --upgrade grep
-#     container:
-#       image: frolvlad/alpine-gcc
-#       volumes: ${{PWD}}:
-#     steps:
-#     - name: checkout tinycc repository
-#     - uses: actions/checkout@v2
-#       with:
-#         repository: TinyCC/tinycc
-#         #path: my-tools
-#     - name: What OS is running
-#       run: uname -a
-#     - run: cd tinycc
-#     - name: configure
-#     - run: ./configure --config-musl
-#     - name: make
-#       run: make
-#     - name: make test
-#       run: make test
-    
-#     - name: What java version do we have
-#       run: java -version
-
-#     steps:
-#     - name: checkout tinycc repository
-#     - uses: actions/checkout@v2
-#       with:
-#         repository: TinyCC/tinycc
-#         #path: my-tools
-#     - name: install musl-dev
-#     - run: sudo apt install musl-dev
-#     - run: cd tinycc
-#     - name: configure
-#     - run: ./configure --config-musl
-#     - name: make
-#       run: make
-#     - name: make test
-#       run: make test
-#     - name: make distcheck
-#       run: make distcheck
