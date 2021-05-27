@@ -2,8 +2,8 @@ name: C/C++ CI
 
 on:
   workflow_dispatch:
-  #schedule:
-  #- cron: "0 22 * * *"
+  schedule:
+  - cron: "52 0 * * *"
 
 jobs:
   build:
@@ -42,6 +42,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: tcc-binaries.tar.gz
+          body: TinyC compiler binaries compiled in alpine for x86_64-linux-musl
           tag_name: ${{ steps.datetime.outputs.datetime }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
