@@ -1,9 +1,9 @@
-name: C/C++ CI
+name: TinyC Compiler build
 
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 1 * * *"
+    - cron: '10 1 * * *'
 
 jobs:
   build:
