@@ -3,7 +3,7 @@ name: C/C++ CI
 on:
   workflow_dispatch:
   schedule:
-  - cron: "52 0 * * *"
+  - cron: "0 1 * * *"
 
 jobs:
   build:
