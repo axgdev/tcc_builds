@@ -39,5 +39,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: tcc-binaries.zip
+          tag_name: date -u +"%FT%H%MZ"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
