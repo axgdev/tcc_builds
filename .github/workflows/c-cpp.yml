@@ -15,9 +15,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: TinyCC/tinycc
-      - name: modify repositories
+      - name: add alpine testing repository to install tcc
         run: echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-      - name: add necessary packages, gnu-grep is needed for tcc
+      - name: add necessary packages
         run: apk add --no-cache tcc musl-dev make
       - name: first stage compile tcc
         run: |
@@ -28,8 +28,16 @@ jobs:
       - name: second stage compile tcc
         run: |
           make clean
-          mkdir -p /second-stage
-          ./configure --config-musl --cc=/first_stage/bin/tcc --prefix=/second-stage
+          mkdir -p /tcc-binaries
+          ./configure --config-musl --cc=/first_stage/bin/tcc --prefix=/tcc-binaries
           make
           make test
           make install
+      - name: compress tcc binaries
+        run: tar -zcvf tcc-binaries.zip /tcc-binaries
+      - name: release the binary
+        uses: softprops/action-gh-release@v1
+        with:
+          files: tcc-binaries.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
