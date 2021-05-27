@@ -34,14 +34,14 @@ jobs:
           make test
           make install
       - name: compress tcc binaries
-        run: tar -zcvf tcc-binaries.zip /tcc-binaries
+        run: tar -zcvf tcc-binaries.tar.gz /tcc-binaries
       - name: Get current date-time
         id: datetime
         run: echo "::set-output name=datetime::$(date -u +'%FT%H%MZ')"
       - name: release the binary
         uses: softprops/action-gh-release@v1
         with:
-          files: tcc-binaries.zip
+          files: tcc-binaries.tar.gz
           tag_name: ${{ steps.datetime.outputs.datetime }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
